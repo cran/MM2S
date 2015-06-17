@@ -38,7 +38,7 @@ Deena M.A. Gendoo
 # Data contains selected samples from a heterogenous WNT Mouse model
 data(WNT_Mouse_Expr)
 # Generate Subtype Predictions
-SubtypePreds<-MM2S.mouse(InputMatrix=WNT_Mouse_Expr[2:3],xls_output=TRUE,parallelize=1)
+SubtypePreds<-MM2S.mouse(InputMatrix=WNT_Mouse_Expr[2:3],xls_output=TRUE,parallelize=2)
 
 ## Not Run
 # Generate Heatmap of Predictions
