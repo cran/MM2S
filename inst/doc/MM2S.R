@@ -1,7 +1,7 @@
 ## ----installAndLoadPackages,eval=TRUE------------------------------------
-install.packages("MM2S", repos="http://cran.r-project.org")
+#install.packages("MM2S", repos="http://cran.r-project.org")
 library(MM2S)
-install.packages("MM2Sdata", repos="http://cran.r-project.org")
+#install.packages("MM2Sdata", repos="http://cran.r-project.org")
 library(MM2Sdata)
 
 ## ----findMouseModelSubtypes----------------------------------------------
@@ -26,6 +26,17 @@ GTMLPreds<-MM2S.mouse(InputMatrix=GTML,xls_output=TRUE,parallelize=1)
 PredictionsHeatmap(InputMatrix=GTMLPreds$Predictions[1:20,],pdf_output=TRUE,pdfheight=12,pdfwidth=10)
 
 # NB: Output may appear on multiple pages
+
+## ----GeneratePredictionBarplot,eval=FALSE,echo=TRUE----------------------
+#  # To run the function all the GTML sample replicates, please run:
+#  # PredictionsBarplot(InputMatrix=GTMLPreds$Predictions[1:20,],pdf_output=TRUE,pdfheight=5,pdfwidth=12)
+#  # NB: Output may appear on multiple pages
+
+## ----PredictionDistributionPie,echo=TRUE---------------------------------
+PredictionsDistributionPie(InputMatrix=GTMLPreds,pdf_output=TRUE,pdfheight=5,pdfwidth=5)
+
+## ----PredictionDistributionBoxplot,echo=TRUE-----------------------------
+PredictionsDistributionBoxplot(InputMatrix=GTMLPreds,pdf_output=FALSE)
 
 ## ----PCARenderingOfPredictions,echo=TRUE---------------------------------
 PCARender(GSVAmatrixTesting=GTMLPreds$RankMatrixTesting, 
