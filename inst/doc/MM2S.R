@@ -1,8 +1,8 @@
 ## ----installAndLoadPackages,eval=TRUE------------------------------------
 #install.packages("MM2S", repos="http://cran.r-project.org")
-library(MM2S)
+suppressPackageStartupMessages(library(MM2S))
 #install.packages("MM2Sdata", repos="http://cran.r-project.org")
-library(MM2Sdata)
+suppressPackageStartupMessages(library(MM2Sdata))
 
 ## ----findMouseModelSubtypes----------------------------------------------
 data(GSE36594Expr)
@@ -82,6 +82,6 @@ PCARender(GSVAmatrixTesting=HumanPreds$RankMatrixTesting,
 # install_github(repo="DGendoo/MM2S")
 # install_github(repo="DGendoo/MM2Sdata")
 
-## ----sessionInfo,echo=FALSE,results="tex"--------------------------------
-toLatex(sessionInfo())
+## ----sessionInfo,echo=FALSE,results="asis"-------------------------------
+utils::toLatex(sessionInfo())
 
