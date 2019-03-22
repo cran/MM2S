@@ -53,8 +53,8 @@
 %------------------------------------------------------------ 
 The MM2S package is providing relevant functions for subtype prediction of Medulloblastoma primary samples, mouse models, and cell lines. 
 
-MM2S is single-sample classifier that generates Medulloblastoma (MB) subtype predictions for single-samples of human MB patients and model systems, including cell lines and mouse-models. The MM2S algorithm uses a systems-based methodology that faciliates application of the algorithm on samples irrespective of their platform or source of origin. MM2S demonstrates >96 percent accuracy for patients of well-characterized normal cerebellum, WNT, or SHH subtypes, and the less-characterized Group4 (86 percent) and Group3 (78.2 percent). 
-MM2S also enables classification of MB cell lines and mouse models into their human counterparts.This package contains function for implementing the classifier onto human data and mouse data, as well as graphical rendering of the results as PCA plots and heatmaps.
+MM2S is single-sample classifier that generates Medulloblastoma (MB) subtype predictions for single-samples of human MB patients and model systems, including cell lines and mouse-models. The MM2S algorithm uses a systems-based methodology that faciliates application of the algorithm on samples irrespective of their platform or source of origin. MM2S demonstrates >96 percent accuracy for patients of well-characterized normal cerebellum, Wingless (WNT), or Sonic hedgehog(SHH) subtypes, and the less-characterized Group4 (86 percent) and Group3 (78.2 percent). 
+MM2S also enables classification of Medulloblastoma (MB) cell lines and mouse models into their human counterparts.This package contains function for implementing the classifier onto human data and mouse data, as well as graphical rendering of the results as Principal Component Analysis (PCA) plots and heatmaps.
 
 Please refer to the manuscript URL: http://www.sciencedirect.com/science/article/pii/S0888754315000774
 
@@ -103,7 +103,7 @@ for(sample in 1:ncol(GTML))
 }
 
 # Conduct Subtype Predictions for those particular replicates, save results in a XLS file
-GTMLPreds<-MM2S.mouse(InputMatrix=GTML,xls_output=TRUE,parallelize=1)
+GTMLPreds<-MM2S.mouse(InputMatrix=GTML,parallelize=1,seed=12345, tempdir())
 @
 
 Now we can view the predictions for the GTML sample replicates in more detail. 
@@ -137,8 +137,8 @@ To assess further, we also plot the distribution of subtype calls, across all th
 PredictionsDistributionBoxplot(InputMatrix=GTMLPreds,pdf_output=FALSE)
 @
 
-Notably, some samples also predict as either SHH or Normal. Further investigation would need to performed on these samples. 
-To invesitage further, we can graphically visualize different sample replicates and their nearest human MB neighbors 
+Notably, some samples also predict as either Sonic hedgehog (SHH) or Normal. Further investigation would need to performed on these samples. 
+To invesitage further, we can graphically visualize different sample replicates and their nearest human Medulloblastoma (MB) neighbors 
 from the MM2S training set using Principal Component Analysis (PCA). 
 
 Three PDF files are generated which renders PC1 vs PC2, PC2 vs PC3, and a lattice plot of PC1-PC3. 
@@ -165,7 +165,7 @@ data(GSE37418Expr)
 HumanExpr<-exprs(GSE37418Expr)
 # Conduct Subtype Predictions for all samples, save results in a XLS file
 # [This will take a few minutes to compute]
-HumanPreds<-MM2S.human(InputMatrix=HumanExpr,xls_output=TRUE,parallelize=1)
+HumanPreds<-MM2S.human(InputMatrix=HumanExpr,parallelize=1,seed=12345, tempdir())
 @
 
 We can compare MM2S predictions against known subtype predictions of the samples.
@@ -186,7 +186,7 @@ ComparisonTable[1:10,]
 @
 
 We can easily generate a heatmap of all predictions, 
-as well as PCA plots for our given samples against the MM2S training set. 
+as well as Principal Component Analysis (PCA) plots for our given samples against the MM2S training set. 
 <<GeneratePredictionHeatmapAndPCARendering,echo=TRUE>>=
 # Now generate a heatmap of the predictions and save the results in a PDF file.  
 # This indicates MM2S confidence perdictions for each sample. 
@@ -195,7 +195,7 @@ PredictionsHeatmap(InputMatrix=HumanPreds$Predictions[1:10,],pdf_output=TRUE,pdf
 
 # NB: Output may appear on multiple pages
 
-# We can graphically visualize different sample replicates and their nearest human MB neighbors 
+# We can graphically visualize different sample replicates and their nearest human Medulloblastoma (MB) neighbors 
 # from the MM2S training set using Principal Component Analysis (PCA). 
 PCARender(GSVAmatrixTesting=HumanPreds$RankMatrixTesting, 
           GSVAmatrixTraining=HumanPreds$RankMatrixTraining)

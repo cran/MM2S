@@ -7,15 +7,20 @@
 # In no event shall the University Health Network (UHN) or the authors be liable for any consequential damage of any kind, 
 # or any damages resulting from the use of MM2S.
 
+#seed = 12345
+
 #################################################################################
 #################################################################################
 
 if(getRversion() >= "2.15.1")  utils::globalVariables(c("MouseGMT", "genesetHuman","en_ES_Rank_Matrix","MB_SampleInfo"))
 
-MM2S.mouse<-function(InputMatrix,xls_output,parallelize)
+MM2S.mouse<-function(InputMatrix, parallelize, seed, dir)
 {
-  set.seed(12345)
-  options(warn=-1)
+	
+  if(!missing(seed)){
+  	set.seed(seed)
+  }	
+
   ###################################
   ## Parameter Checks
   ###################################
@@ -42,12 +47,6 @@ MM2S.mouse<-function(InputMatrix,xls_output,parallelize)
   ExpressionMatrixMouse <- apply(ExpressionMatrixMouse, c(1,2), as.numeric)
   rownames(ExpressionMatrixMouse) <- rownames(mouseData)
   
-  ## Check boolean CSV
-  if(!is.logical(xls_output))
-  {
-    message("TRUE or FALSE needed for XLS output")
-    stop()
-  }
   
   ###################################
   ## Perform ssGSEA & get Rank Matrix
@@ -63,7 +62,7 @@ MM2S.mouse<-function(InputMatrix,xls_output,parallelize)
   MouseData<-ExpressionMatrixMouse
   #Estimate ssGSEA scores using GSVA function
   # GSVA -> S4 method for signature 'matrix,list,character'
-  set.seed(12345)
+  set.seed(seed)
   MouseGSVA<-gsva(MouseData, MouseGMT$genesets,method="ssgsea", ssgsea.norm=FALSE, min.sz=20,max.sz=100, parallel.sz=availcore,verbose=FALSE)
   genesetMouse<-rownames(MouseGSVA)
   
@@ -149,7 +148,7 @@ MM2S.mouse<-function(InputMatrix,xls_output,parallelize)
   
   TrainSet<-TrainSet[,-ncol(TrainSet)]
   ## Generate the predictions
-  set.seed(12345)
+  set.seed(seed)
   
   TestKKNN<-kknn(formula = Northcott$Group ~ ., TrainSet, TestSet, na.action = na.omit(),k = 5, distance = 1, kernel = "rectangular", scale=TRUE)
   
@@ -167,9 +166,8 @@ MM2S.mouse<-function(InputMatrix,xls_output,parallelize)
   
   print.table(RESULTS) 
   
-  if(xls_output==TRUE)
-  {
-    write.table(RESULTS,file="MM2S_Predictions.xls",sep = "\t",col.names=listOfCols,row.names=FALSE)
+  if(!missing(dir)){
+    write.table(RESULTS,file=file.path(dir, "MM2S_Predictions.xls"),sep="\t",col.names=listOfCols,row.names=FALSE)
   }
   
   FINAL<-TestKKNN$prob*100

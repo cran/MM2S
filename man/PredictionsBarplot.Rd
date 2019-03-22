@@ -11,7 +11,7 @@ Users are provided the option to save this heatmap as a PDF file.
 PredictionsBarplot(InputMatrix,pdf_output,pdfheight,pdfwidth)
 }
 \arguments{
-  \item{InputMatrix}{Matrix with samples in rows, and columns with MM2S percentage predictions for each subtype (Gr4,Gr3,SHH,WNT, and Normal)}
+  \item{InputMatrix}{Matrix with samples in rows, and columns with MM2S percentage predictions for each subtype (Gr4,Gr3,Sonic hedgehog (SHH),Wingless (WNT), and Normal)}
   \item{pdf_output}{Option to save the heatmap as a PDF file}
   \item{pdfheight}{User-defined specification for PDF height size}
   \item{pdfwidth}{User-defined specification for PDF width size}
@@ -32,13 +32,13 @@ Manuscript URL: http://www.sciencedirect.com/science/article/pii/S08887543150007
 data(GTML_Mouse_Preds)
 ## Generate Barplot
 PredictionsBarplot(InputMatrix=GTML_Mouse_Preds, pdf_output=TRUE,pdfheight=5,pdfwidth=5)
-
-## Not Run
+\donttest{
 # Generate heatmap after running raw expression data through MM2S
 # load Mouse gene expression data for the potential WNT mouse model
-# data(WNT_Mouse_Expr)
-# SubtypePreds<-MM2S.mouse(InputMatrix=WNT_Mouse_Expr[2:3],xls_output=TRUE,parallelize=1)
+data(WNT_Mouse_Expr)
+SubtypePreds<-MM2S.mouse(InputMatrix=WNT_Mouse_Expr[2:3],parallelize=1, seed = 12345)
 # Generate Heatmap
-# PredictionsBarplot(InputMatrix=SubtypePreds$Predictions,pdf_output=TRUE,pdfheight=5,pdfwidth=5)
+PredictionsBarplot(InputMatrix=SubtypePreds$Predictions,pdf_output=TRUE,pdfheight=5,pdfwidth=5)
+}
 }
 \keyword{ heatmap }

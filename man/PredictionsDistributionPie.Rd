@@ -27,11 +27,13 @@ Manuscript URL: http://www.sciencedirect.com/science/article/pii/S08887543150007
 }
 \author{Deena M.A. Gendoo}
 \examples{
-# First run raw expression data through MM2S
-# load Mouse gene expression data for the potential WNT mouse model
-# data(WNT_Mouse_Expr)
-# SubtypePreds<-MM2S.mouse(InputMatrix=WNT_Mouse_Expr,xls_output=TRUE,parallelize=2)
+\donttest{
+#First run raw expression data through MM2S
+#load Mouse gene expression data for the potential WNT mouse model
+data(WNT_Mouse_Expr)
+SubtypePreds<-MM2S.mouse(InputMatrix=WNT_Mouse_Expr,parallelize=2, seed = 12345)
 # Generate Heatmap
-# PredictionsDistributionPie(InputMatrix=SubtypePreds,pdf_output=TRUE,pdfheight=5,pdfwidth=5)
+PredictionsDistributionPie(InputMatrix=SubtypePreds,pdf_output=TRUE,pdfheight=5,pdfwidth=5)
+}
 }
 \keyword{ heatmap }

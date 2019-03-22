@@ -133,7 +133,7 @@ Now we can use this data and run several MM2S functions to determine the MB subt
 We first perform MM2S predictions on a subset of the samples for demonstration. 
 <<findHumanModelSubtypes,eval=FALSE>>=
 # Conduct Subtype Predictions the samples, save results in a XLS file
-HumanPreds<-MM2S.human(InputMatrix=ExprMatrix[,1:10],xls_output=FALSE,parallelize=4)
+HumanPreds<-MM2S.human(InputMatrix=ExprMatrix[,1:10],parallelize=4, seed=12345, tempdir())
 @
 
 Now these predictions can be viewed using a variety of MM2S functions. 

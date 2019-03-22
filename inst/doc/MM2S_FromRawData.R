@@ -51,7 +51,7 @@
 
 ## ----findHumanModelSubtypes,eval=FALSE-----------------------------------
 #  # Conduct Subtype Predictions the samples, save results in a XLS file
-#  HumanPreds<-MM2S.human(InputMatrix=ExprMatrix[,1:10],xls_output=FALSE,parallelize=4)
+#  HumanPreds<-MM2S.human(InputMatrix=ExprMatrix[,1:10],parallelize=4, seed=12345, tempdir())
 
 ## ----GeneratePredictionHeatmap,echo=TRUE,eval=FALSE----------------------
 #  # Now generate a heatmap of the predictions and save the results in a PDF file.

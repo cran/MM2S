@@ -11,10 +11,11 @@
 #################################################################################
 if(getRversion() >= "2.15.1")  utils::globalVariables(c("HumanGMT", "genesetHuman","Frozen_ES_Rank_Matrix","MB_SampleInfo"))
 
-MM2S.human<-function(InputMatrix,xls_output,parallelize)
+MM2S.human<-function(InputMatrix, parallelize, seed, dir)
 {
-  set.seed(12345)
-  options(warn=-1)
+  if(!missing(seed)) {
+    set.seed(seed)
+  }
   ###################################
   ## Parameter Checks
   ###################################
@@ -41,12 +42,6 @@ MM2S.human<-function(InputMatrix,xls_output,parallelize)
   ExpressionMatrixHumanTest <- apply(ExpressionMatrixHumanTest, c(1,2), as.numeric)
   rownames(ExpressionMatrixHumanTest) <- rownames(TestData)
   
-  ## Check boolean XLS
-  if(!is.logical(xls_output))
-  {
-    message("TRUE or FALSE needed for XLS output")
-    stop()
-  }
   
   ###################################
   ## Perform ssGSEA & get Rank Matrix
@@ -148,7 +143,7 @@ MM2S.human<-function(InputMatrix,xls_output,parallelize)
   
   TrainSet<-TrainSet[,-ncol(TrainSet)]
   ## Generate the predictions
-  set.seed(12345)
+  set.seed(seed)
   
   TestKKNN<-kknn(formula = Northcott$Group ~ ., TrainSet, TestSet, na.action = na.omit(),k = 5, distance = 1, kernel = "rectangular", scale=TRUE)
   
@@ -166,11 +161,10 @@ MM2S.human<-function(InputMatrix,xls_output,parallelize)
   
   print.table(RESULTS) 
   
-  if(xls_output==TRUE)
-  {
-    write.table(RESULTS,file="MM2S_Predictions.xls",sep="\t",col.names=listOfCols,row.names=FALSE)
+  if(!missing(dir)){
+    write.table(RESULTS,file=file.path(dir, "MM2S_Predictions.xls"),sep="\t",col.names=listOfCols,row.names=FALSE)
   }
-  
+
   FINAL<-TestKKNN$prob*100
   colnames(FINAL)<-c("Group3","Group4","Normal","SHH","WNT")
   rownames(FINAL)<-rownames(HumanTest)
